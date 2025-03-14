@@ -22,18 +22,16 @@ def get_random_cat():
     random_cat = random.choice(cat_breeds)
     return random_cat
 
-
+current_time = datetime.datetime.now().utcnow()
 @app.route('/get_time/now')
 def get_time_now():
-    current_time = datetime.datetime.now().utcnow()
-    return print(f'Точное время: {current_time}')
+    return f'Точное время: {current_time}'
 
 
 @app.route('/get_time/future')
 def get_time_future():
-    current_time = datetime.datetime.now().utcnow()
     current_time_after_hour = current_time + datetime.timedelta(hours=1)
-    return print(f'Точное время: {current_time_after_hour}')
+    return f'Точное время: {current_time_after_hour}'
 
 
 @app.route('/get_random_word')
