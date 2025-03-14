@@ -29,7 +29,9 @@ def test_function():
 
 @app.route('/get_time/future')
 def test_function():
-    pass
+    current_time = datetime.datetime.now().utcnow()
+    current_time_after_hour = current_time + datetime.timedelta(hours=1)
+    return print(f'Точное время: {current_time_after_hour}')
 
 
 @app.route('/get_random_word')
