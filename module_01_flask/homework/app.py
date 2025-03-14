@@ -11,7 +11,8 @@ def test_function():
 
 @app.route('/cars')
 def test_function():
-    pass
+    cars = ['Chevrolet', 'Renault', 'Ford', 'Lada']
+    return cars
 
 
 @app.route('/cats')
