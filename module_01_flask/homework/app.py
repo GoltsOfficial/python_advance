@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/hello_world')
 def test_function():
-    pass
+    return "Hello World!"
 
 
 @app.route('/cars')
