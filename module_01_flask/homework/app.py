@@ -1,6 +1,8 @@
 import datetime
-from flask import Flask
+from flask import Flask, jsonify
 import random
+import re
+import os
 app = Flask(__name__)
 
 
@@ -36,7 +38,27 @@ def test_function():
 
 @app.route('/get_random_word')
 def test_function():
-    pass
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    BOOK_FILE = os.path.join(BASE_DIR, 'war_and_peace.txt')
+
+    # Загружаем текст книги один раз при старте приложения
+    with open(BOOK_FILE, 'r', encoding='utf-8') as book:
+        book_text = book.read()
+
+    # Функция для получения списка слов из текста
+    def get_word_list(text):
+        # Используем регулярное выражение для получения слов
+        words = re.findall(r'\b\w+\b', text)
+        return words
+
+    # Получаем список слов
+    word_list = get_word_list(book_text)
+
+    @app.route('/get_random_word')
+    def get_random_word():
+        # Получаем случайное слово из списка
+        random_word = random.choice(word_list)
+        return jsonify({'word': random_word})
 
 
 @app.route('/counter')
