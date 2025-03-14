@@ -23,7 +23,8 @@ def test_function():
 
 @app.route('/get_time/now')
 def test_function():
-    pass
+    current_time = datetime.datetime.now().utcnow()
+    return print(f'Точное время: {current_time}')
 
 
 @app.route('/get_time/future')
