@@ -10,16 +10,15 @@ app = Flask(__name__)
 def hello_world():
     return "Hello World!"
 
-
+cars = ['Chevrolet', 'Renault', 'Ford', 'Lada']
 @app.route('/cars')
 def cars():
-    cars = ['Chevrolet', 'Renault', 'Ford', 'Lada']
     return cars
 
 cat_breeds  = ['корниш-рекс', 'русская голубая', 'шотландская вислоухая', 'мейн-кун', 'манчкин']
+random_cat = random.choice(cat_breeds)
 @app.route('/cats')
 def get_random_cat():
-    random_cat = random.choice(cat_breeds)
     return random_cat
 
 current_time = datetime.datetime.now().utcnow()
@@ -27,18 +26,15 @@ current_time = datetime.datetime.now().utcnow()
 def get_time_now():
     return f'Точное время: {current_time}'
 
-
+current_time_after_hour = current_time + datetime.timedelta(hours=1)
 @app.route('/get_time/future')
 def get_time_future():
-    current_time_after_hour = current_time + datetime.timedelta(hours=1)
     return f'Точное время: {current_time_after_hour}'
 
-
+with open('war_and_peace.txt', 'r', encoding='utf-8') as book:
+    words = re.findall(r'\b\w+\b', book.read())  # Достаём все слова из файла
 @app.route('/get_random_word')
 def get_random_word():
-    with open('war_and_peace.txt', 'r', encoding='utf-8') as book:
-        words = re.findall(r'\b\w+\b', book.read())  # Достаём все слова из файла
-
     return random.choice(words) if words else "Файл пуст"
 
 visits = 0
