@@ -7,37 +7,37 @@ app = Flask(__name__)
 
 
 @app.route('/hello_world')
-def test_function():
+def hello_world():
     return "Hello World!"
 
 
 @app.route('/cars')
-def test_function():
+def cars():
     cars = ['Chevrolet', 'Renault', 'Ford', 'Lada']
     return cars
 
 cats = ['корниш-рекс', 'русская голубая', 'шотландская вислоухая', 'мейн-кун', 'манчкин']
 @app.route('/cats')
-def test_function():
+def cats():
     random_cat = random.randit(cats[0],cats[4])
     return random_cat
 
 
 @app.route('/get_time/now')
-def test_function():
+def get_time_now():
     current_time = datetime.datetime.now().utcnow()
     return print(f'Точное время: {current_time}')
 
 
 @app.route('/get_time/future')
-def test_function():
+def get_time_future():
     current_time = datetime.datetime.now().utcnow()
     current_time_after_hour = current_time + datetime.timedelta(hours=1)
     return print(f'Точное время: {current_time_after_hour}')
 
 
 @app.route('/get_random_word')
-def test_function():
+def get_random_word():
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     BOOK_FILE = os.path.join(BASE_DIR, 'war_and_peace.txt')
 
@@ -62,7 +62,7 @@ def test_function():
 
 visits = 0
 @app.route('/counter')
-def test_function():
+def counter():
     global visits
     visits += 1
     return f'Количество посещений: {visits}'
