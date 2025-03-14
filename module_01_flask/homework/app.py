@@ -16,10 +16,10 @@ def cars():
     cars = ['Chevrolet', 'Renault', 'Ford', 'Lada']
     return cars
 
-cats = ['корниш-рекс', 'русская голубая', 'шотландская вислоухая', 'мейн-кун', 'манчкин']
+cat_breeds  = ['корниш-рекс', 'русская голубая', 'шотландская вислоухая', 'мейн-кун', 'манчкин']
 @app.route('/cats')
-def cats():
-    random_cat = random.randit(cats[0],cats[4])
+def get_random_cat():
+    random_cat = random.choice(cat_breeds)
     return random_cat
 
 
