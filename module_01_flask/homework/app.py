@@ -1,6 +1,6 @@
 import datetime
 from flask import Flask
-
+import random
 app = Flask(__name__)
 
 
@@ -14,10 +14,11 @@ def test_function():
     cars = ['Chevrolet', 'Renault', 'Ford', 'Lada']
     return cars
 
-
+cats = ['корниш-рекс', 'русская голубая', 'шотландская вислоухая', 'мейн-кун', 'манчкин']
 @app.route('/cats')
 def test_function():
-    pass
+    random_cat = random.randit(cats[0],cats[4])
+    return random_cat
 
 
 @app.route('/get_time/now')
