@@ -60,10 +60,14 @@ def test_function():
         random_word = random.choice(word_list)
         return jsonify({'word': random_word})
 
-
+visits = 0
 @app.route('/counter')
 def test_function():
-    pass
+    global visits
+    visits += 1
+    return f'Количество посещений: {visits}'
+
+
 
 
 if __name__ == '__main__':
