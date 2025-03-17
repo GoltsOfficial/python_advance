@@ -30,7 +30,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-
+import os
 @app.route("/head_file/<int:size>/<path:relative_path>")
 def head_file(size: int, relative_path: str):
     abs_path = os.path.abspath(relative_path)
