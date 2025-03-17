@@ -27,7 +27,8 @@ def add(date: str, number: int):
 
 @app.route("/calculate/<int:year>")
 def calculate_year(year: int):
-    ...
+    total = sum(v for k, v in storage.items() if k.startswith(str(year)))
+    return f"Сумма за {year}: {total} рублей"
 
 
 @app.route("/calculate/<int:year>/<int:month>")
