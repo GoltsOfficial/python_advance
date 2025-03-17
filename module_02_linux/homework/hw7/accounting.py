@@ -21,7 +21,8 @@ storage = {}
 
 @app.route("/add/<date>/<int:number>")
 def add(date: str, number: int):
-    ...
+    storage[date] += number
+    return f"Добавлено {number} рублей за {date}"
 
 
 @app.route("/calculate/<int:year>")
