@@ -13,10 +13,16 @@ $ ps aux > output_file.txt
 Это означает, что ответ надо перевести в байты, килобайты, мегабайты и так далее.
 """
 
+import humanize
 
 def get_summary_rss(ps_output_file_path: str) -> str:
-    ...
-
+    total_rss = 0
+    with open(ps_output_file_path, "r") as file:
+        for line in file:
+            parts = line.split()
+            if parts[5].isdigit():  # RSS в 6-й колонке (с 0)
+                total_rss += int(parts[5])
+    return humanize.naturalsize(total_rss, binary=True)
 
 if __name__ == '__main__':
     path: str = 'PATH_TO_OUTPUT_FILE'
