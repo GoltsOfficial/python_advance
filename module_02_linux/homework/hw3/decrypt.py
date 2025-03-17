@@ -38,7 +38,19 @@ import sys
 
 
 def decrypt(encryption: str) -> str:
-    ...
+    result = []
+    i = 0
+    while i < len(encryption):
+        if encryption[i:i + 2] == "..":
+            if result:
+                result.pop()
+            i += 2
+        elif encryption[i] == ".":
+            i += 1
+        else:
+            result.append(encryption[i])
+            i += 1
+    return "".join(result)
 
 
 if __name__ == '__main__':
