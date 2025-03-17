@@ -33,7 +33,9 @@ def calculate_year(year: int):
 
 @app.route("/calculate/<int:year>/<int:month>")
 def calculate_month(year: int, month: int):
-    ...
+    key_prefix = f"{year}{month:02}"
+    total = sum(v for k, v in storage.items() if k.startswith(key_prefix))
+    return f"Сумма за {year}-{month}: {total} рублей"
 
 
 if __name__ == "__main__":
