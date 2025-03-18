@@ -12,15 +12,16 @@ Endpoint должен вернуть текст «Максимальное пе�
 Максимальное число: 2
 
 """
-
+from typing import List
 from flask import Flask
 
 app = Flask(__name__)
 
 
 @app.route("/max_number/...")
-def max_number():
-    ...
+def max_number(numbers: List[int]) -> str:
+    max_num = max(map(int, numbers.split("/")))
+    return f"Максимальное число: {max_num}"
 
 
 if __name__ == "__main__":

@@ -30,10 +30,16 @@ from flask import Flask
 
 app = Flask(__name__)
 
-
+import os
 @app.route("/head_file/<int:size>/<path:relative_path>")
 def head_file(size: int, relative_path: str):
-    ...
+    abs_path = os.path.abspath(relative_path)
+    try:
+        with open(abs_path, "r", encoding="utf-8") as file:
+            text = file.read(size)
+    except FileNotFoundError:
+        return "Файл не найден", 404
+    return f"<b>{abs_path}</b> {len(text)}<br>{text}"
 
 
 if __name__ == "__main__":

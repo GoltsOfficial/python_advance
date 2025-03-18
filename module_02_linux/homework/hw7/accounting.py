@@ -16,23 +16,25 @@ from flask import Flask
 
 app = Flask(__name__)
 
+
 storage = {}
 
+def calculate(year: int, month: int = None) -> int:
+    key_prefix = f"{year}" if month is None else f"{year}{month:02}"
+    return sum(v for k, v in storage.items() if k.startswith(key_prefix))
 
 @app.route("/add/<date>/<int:number>")
 def add(date: str, number: int):
-    ...
-
+    storage[date] = storage.get(date, 0) + number
+    return f"Добавлено {number} рублей за {date}"
 
 @app.route("/calculate/<int:year>")
 def calculate_year(year: int):
-    ...
-
+    return f"Сумма за {year}: {calculate(year)} рублей"
 
 @app.route("/calculate/<int:year>/<int:month>")
 def calculate_month(year: int, month: int):
-    ...
-
+    return f"Сумма за {year}-{month}: {calculate(year, month)} рублей"
 
 if __name__ == "__main__":
     app.run(debug=True)

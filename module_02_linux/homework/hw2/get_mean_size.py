@@ -11,7 +11,12 @@ import sys
 
 
 def get_mean_size(ls_output: str) -> float:
-    ...
+    sizes = [
+        int(line.split()[4])
+        for line in ls_output.strip().split("\n")
+        if line and line.split()[4].isdigit()
+    ]
+    return sum(sizes) / len(sizes) if sizes else 0
 
 
 if __name__ == '__main__':
