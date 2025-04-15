@@ -24,6 +24,6 @@ class Person:
 
     def is_homeless(self) -> bool:
         '''
-        returns True if address is not set, false in other case
+        Returns 'True' if address is not set (None) or is empty string, 'False' in other case.
         '''
-        return self.address is None
+        return self.address is None or self.address == ''
