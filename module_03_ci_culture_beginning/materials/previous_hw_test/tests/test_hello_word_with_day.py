@@ -14,7 +14,7 @@ class TestMaxNumberApp(unittest.TestCase):
 
     def test_greeting_includes_username_and_weekday(self):
         username = 'username'
-        response = self.client.get(self.base_url + username)
+        response = self.app.get(self.base_url + username)
         response_text = response.data.decode()
 
         # Проверка, что имя пользователя есть в ответе
