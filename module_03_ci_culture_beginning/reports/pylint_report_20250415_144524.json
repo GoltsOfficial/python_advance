@@ -1,0 +1,15 @@
+[
+    {
+        "type": "fatal",
+        "module": "./module_03_ci_culture_beginning/homework/hw2/decrypt.py",
+        "obj": "",
+        "line": 1,
+        "column": 0,
+        "endLine": null,
+        "endColumn": null,
+        "path": "./module_03_ci_culture_beginning/homework/hw2/decrypt.py",
+        "symbol": "fatal",
+        "message": "No module named ./module_03_ci_culture_beginning/homework/hw2/decrypt.py",
+        "message-id": "F0001"
+    }
+]

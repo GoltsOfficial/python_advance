@@ -2,7 +2,7 @@ from module_03_ci_culture_beginning.materials.testing_age.social_age import get_
 
 
 def check_if_can_get_child_status():
-    age = 33
+    age = 8
     expected_res = 'ребенок'
     function_res = get_social_status(age)
     assert expected_res == function_res, 'Not matched'
