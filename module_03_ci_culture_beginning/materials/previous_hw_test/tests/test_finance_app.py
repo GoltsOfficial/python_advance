@@ -1,5 +1,5 @@
 import unittest
-from finance_app import app, storage
+from module_03_ci_culture_beginning.homework.hw3.finance_app import app, storage
 
 
 class TestFinanceApp(unittest.TestCase):
