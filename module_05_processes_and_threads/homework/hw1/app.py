@@ -41,7 +41,14 @@ def free_port(port: int) -> None:
     @param port: порт
     """
     pids: List[int] = get_pids(port)
-    ...
+    for pid in pids:
+        try:
+            os.kill(pid, 9)  # SIGKILL
+            print(f"Killed process {pid} using port {port}")
+        except ProcessLookupError:
+            print(f"Process {pid} not found")
+        except PermissionError:
+            print(f"No permission to kill process {pid}")
 
 
 def run(port: int) -> None:
