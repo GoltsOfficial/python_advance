@@ -8,6 +8,7 @@
 """
 
 import sys
+import traceback
 from types import TracebackType
 from typing import Type, Literal, IO
 
@@ -32,4 +33,17 @@ class Redirect:
             exc_val: BaseException | None,
             exc_tb: TracebackType | None
     ) -> Literal[True] | None:
-        return False
+        if self.stderr and exc_type:
+            self.stderr.write(traceback.format_exc())
+            self.stderr.flush()
+
+            # Восстановим потоки
+            if self.stdout:
+                sys.stdout = self.old_stdout
+            if self.stderr:
+                sys.stderr = self.old_stderr
+
+            if self.stderr and exc_type:
+                return True
+
+            return False
