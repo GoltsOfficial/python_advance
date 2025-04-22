@@ -3,15 +3,9 @@
 Обратите внимание, что скрипт может быть расположен в любом месте.
 """
 
-# result = 0
+code = '''# result = 0
 # for n in range(1, 11):
 #     result += n ** 2
-
-# Secret magic code
-
-code = '''result = 0
-for n in range(1, 11):
-    result += n ** 2
 
 # Secret magic code'''
 
