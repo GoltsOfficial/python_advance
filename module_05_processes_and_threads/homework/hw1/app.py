@@ -10,6 +10,8 @@
 которая на вход принимает порт и запускает по нему сервер. Если порт будет занят,
 она должна найти процесс по этому порту, завершить его и попытаться запустить сервер ещё раз.
 """
+import subprocess
+import os
 from typing import List
 
 from flask import Flask
@@ -23,12 +25,14 @@ def get_pids(port: int) -> List[int]:
     @param port: порт
     @return: список PID процессов, занимающих порт
     """
-    if not isinstance(port, int):
-        raise ValueError
-
-    pids: List[int] = []
-    ...
-    return pids
+    try:
+        output = subprocess.check_output(['lsof', '-i', f':{port}'], text=True)
+        lines = output.strip().split('\n')[1:]  # пропускаем заголовок
+        pids = {int(line.split()[1]) for line in lines if len(line.split()) > 1}
+        return list(pids)
+    except subprocess.CalledProcessError:
+        # lsof вернёт ошибку, если нет процессов на порту
+        return []
 
 
 def free_port(port: int) -> None:
