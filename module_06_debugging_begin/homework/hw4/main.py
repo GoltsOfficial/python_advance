@@ -9,7 +9,8 @@
 5. Какое слово чаще всего встречалось в сообщениях уровня WARNING.
 """
 import json
-from typing import Dict, Counter
+from typing import Dict
+from collections import Counter
 
 
 def load_logs(file_path='skillbox_json_messages.log') -> list:
@@ -32,9 +33,9 @@ def task2() -> int:
     @return: час
     """
     logs = load_logs()
-    hours = [log['time'] for log in logs]
+    hours = [log['time'][:2] for log in logs]
     hour_counter = Counter(hours)
-    most_common = hour_counter.most_common[1][0][0]
+    most_common = hour_counter.most_common(1)[0][0]
     return int(most_common)
 
 
@@ -44,9 +45,8 @@ def task3() -> int:
     @return: количество логов
     """
     logs = load_logs()
-    critical_logs = [log['critical'] for log in logs if log['level'] == 'CRITICAL']
-    critical_counter_in_period = sum(5 <= int(log['time'][:2]) < 6
-                           and log['time'][3:5] <= '20'
+    critical_logs = [log for log in logs if log['level'] == 'CRITICAL']
+    critical_counter_in_period = sum(5 <= int(log['time'][:2]) < 6 and log['time'][3:5] <= '20'
                            for log in critical_logs)
     return int(critical_counter_in_period)
 
