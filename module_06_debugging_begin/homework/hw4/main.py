@@ -66,7 +66,11 @@ def task5() -> str:
     5. Какое слово чаще всего встречалось в сообщениях уровня WARNING.
     @return: слово
     """
-    pass
+    logs = load_logs()
+    warning_messages = [log['message'] for log in logs if log['level'] == 'WARNING']
+    all_words = ' '.join(warning_messages).split()
+    most_common_word = Counter(all_words).most_common(1)
+    return most_common_word[0][0] if most_common_word else ''
 
 
 if __name__ == '__main__':
