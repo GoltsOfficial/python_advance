@@ -18,9 +18,10 @@ def restore_tree(path_to_log_file: str) -> BinaryTreeNode:
 import itertools
 import logging
 import random
-from collections import deque
+from collections import deque, defaultdict
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Dict
+import re
 
 logger = logging.getLogger("tree_walk")
 
@@ -71,7 +72,56 @@ def get_tree(max_depth: int, level: int = 1) -> Optional[BinaryTreeNode]:
 
 
 def restore_tree(path_to_log_file: str) -> BinaryTreeNode:
-    pass
+    node_dict: Dict[int, BinaryTreeNode] = {}
+    children_map = defaultdict(dict)  # val: {"left": left_val, "right": right_val}
+    root_val = None
+
+    with open(path_to_log_file, "r") as f:
+        for line in f:
+            # Visiting <BinaryTreeNode[123]>
+            visit_match = re.search(r"Visiting <BinaryTreeNode\[(\d+)\]>", line)
+            if visit_match:
+                val = int(visit_match.group(1))
+                if root_val is None:
+                    root_val = val
+                if val not in node_dict:
+                    node_dict[val] = BinaryTreeNode(val)
+                continue
+
+            # <BinaryTreeNode[123]> left is not empty. Adding <BinaryTreeNode[456]> to the queue
+            left_match = re.search(
+                r"<BinaryTreeNode\[(\d+)\]> left is not empty\. Adding <BinaryTreeNode\[(\d+)\]>", line)
+            if left_match:
+                parent, child = map(int, left_match.groups())
+                children_map[parent]["left"] = child
+                continue
+
+            # <BinaryTreeNode[123]> right is not empty. Adding <BinaryTreeNode[456]> to the queue
+            right_match = re.search(
+                r"<BinaryTreeNode\[(\d+)\]> right is not empty\. Adding <BinaryTreeNode\[(\d+)\]>", line)
+            if right_match:
+                parent, child = map(int, right_match.groups())
+                children_map[parent]["right"] = child
+                continue
+
+    # Создаем все узлы
+    for val in children_map:
+        if val not in node_dict:
+            node_dict[val] = BinaryTreeNode(val)
+        for child_side in ["left", "right"]:
+            child_val = children_map[val].get(child_side)
+            if child_val is not None and child_val not in node_dict:
+                node_dict[child_val] = BinaryTreeNode(child_val)
+
+    # Устанавливаем связи
+    for parent_val, links in children_map.items():
+        parent_node = node_dict[parent_val]
+        if "left" in links:
+            parent_node.left = node_dict[links["left"]]
+        if "right" in links:
+            parent_node.right = node_dict[links["right"]]
+
+    return node_dict[root_val]
 
 
 if __name__ == "__main__":
