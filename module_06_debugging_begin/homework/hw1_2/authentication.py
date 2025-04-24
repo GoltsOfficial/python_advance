@@ -19,11 +19,26 @@ import getpass
 import hashlib
 import logging
 import os
+import re
 
 logger = logging.getLogger("password_checker")
 
+def load_words(file_path="/usr/share/dict/words"):
+    try:
+        with open(file_path, 'r') as f:
+            return set(word.strip().lower()
+                       for word in file if len(word.strip()) > 4)
+    except FileNotFoundError:
+        print(f"Словарь к пути {file_path} не найден или он отсутствует.")
+        exit(1)
 
 def is_strong_password(password: str) -> bool:
+    words_in_password = re.findall(r'\b[a-zA-Z]{5,}\b', password.lower())
+
+    for word in words_in_password:
+        if word in word_set:
+            return False
+
     return True
 
 
@@ -36,7 +51,6 @@ def input_and_check_password() -> bool:
         return False
     elif is_strong_password(password):
         logger.warning("Вы ввели слишком слабый пароль")
-        return False
 
     try:
         hasher = hashlib.md5()
@@ -52,6 +66,11 @@ def input_and_check_password() -> bool:
 
 
 if __name__ == "__main__":
+    word_set = load_words()
+    log_dir = "logs"
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+
     logging.basicConfig(level=logging.INFO,
                         filename="stderr.txt",
                         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
