@@ -8,7 +8,9 @@
 4. Сколько сообщений содержит слово dog.
 5. Какое слово чаще всего встречалось в сообщениях уровня WARNING.
 """
-from typing import Dict
+import json
+from typing import Dict, Counter
+
 
 def load_logs(file_path='skillbox_json_messages.log') -> list:
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -19,7 +21,9 @@ def task1() -> Dict[str, int]:
     1. Сколько было сообщений каждого уровня за сутки.
     @return: словарь вида {уровень: количество}
     """
-    pass
+    logs = load_logs()
+    level_counter = Counter(log['level'] for log in logs)
+    return dict(level_counter)
 
 
 def task2() -> int:
