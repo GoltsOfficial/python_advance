@@ -31,7 +31,11 @@ def task2() -> int:
     2. В какой час было больше всего логов.
     @return: час
     """
-    pass
+    logs = load_logs()
+    hours = [log['time'] for log in logs]
+    hour_counter = Counter(hours)
+    most_common = hour_counter.most_common[1][0][0]
+    return int(most_common)
 
 
 def task3() -> int:
