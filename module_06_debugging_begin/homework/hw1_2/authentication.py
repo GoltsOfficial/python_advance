@@ -27,7 +27,7 @@ def load_words(file_path="/usr/share/dict/words"):
     try:
         with open(file_path, 'r') as f:
             return set(word.strip().lower()
-                       for word in file if len(word.strip()) > 4)
+                       for word in f if len(word.strip()) > 4)
     except FileNotFoundError:
         print(f"Словарь к пути {file_path} не найден или он отсутствует.")
         exit(1)
