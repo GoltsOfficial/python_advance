@@ -10,6 +10,9 @@
 """
 from typing import Dict
 
+def load_logs(file_path='skillbox_json_messages.log') -> list:
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return [json.loads(line) for line in file]
 
 def task1() -> Dict[str, int]:
     """
