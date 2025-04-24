@@ -43,7 +43,12 @@ def task3() -> int:
     3. Сколько логов уровня CRITICAL было в период с 05:00:00 по 05:20:00.
     @return: количество логов
     """
-    pass
+    logs = load_logs()
+    critical_logs = [log['critical'] for log in logs if log['level'] == 'CRITICAL']
+    critical_counter_in_period = sum(5 <= int(log['time'][:2]) < 6
+                           and log['time'][3:5] <= '20'
+                           for log in critical_logs)
+    return int(critical_counter_in_period)
 
 
 def task4() -> int:
