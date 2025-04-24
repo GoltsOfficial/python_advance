@@ -56,7 +56,9 @@ def task4() -> int:
     4. Сколько сообщений содержат слово dog.
     @return: количество сообщений
     """
-    pass
+    logs = load_logs()
+    count_dog_words = sum('dog' in log['message'].lower() for log in logs)
+    return int(count_dog_words)
 
 
 def task5() -> str:
