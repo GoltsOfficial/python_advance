@@ -8,10 +8,10 @@
 """
 import logging
 import random
+import time
 from typing import List
 
 logger = logging.getLogger(__name__)
-
 
 def get_data_line(sz: int) -> List[int]:
     try:
@@ -19,7 +19,6 @@ def get_data_line(sz: int) -> List[int]:
         return [random.randint(-(2 ** 31), 2 ** 31 - 1) for _ in range(sz)]
     finally:
         logger.debug("Leave get_data_line")
-
 
 def measure_me(nums: List[int]) -> List[List[int]]:
     logger.debug("Enter measure_me")
@@ -37,9 +36,7 @@ def measure_me(nums: List[int]) -> List[List[int]]:
                 if s == target:
                     logger.debug(f"Found {target}")
                     results.append([nums[i], nums[left], nums[right]])
-                    logger.debug(
-                        f"Appended {[nums[i], nums[left], nums[right]]} to result"
-                    )
+                    logger.debug(f"Appended {[nums[i], nums[left], nums[right]]} to result")
                     while left < right and nums[left] == nums[left + 1]:
                         left += 1
                     while left < right and nums[right] == nums[right - 1]:
@@ -47,20 +44,40 @@ def measure_me(nums: List[int]) -> List[List[int]]:
                     left += 1
                     right -= 1
                 elif s < target:
-                    logger.debug(f"Increment left (left, right) = {left, right}")
                     left += 1
                 else:
-                    logger.debug(f"Decrement right (left, right) = {left, right}")
-
                     right -= 1
 
     logger.debug("Leave measure_me")
-
     return results
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level="DEBUG")
-    for it in range(15):
+    # Конфигурация логгера с метками времени до миллисекунд
+    logging.basicConfig(
+        level="DEBUG",
+        format="%(asctime)s.%(msecs)03d - %(message)s",  # Формат с миллисекундами
+        datefmt="%Y-%m-%d %H:%M:%S",  # Формат даты и времени
+    )
+
+    total_time = 0
+    iterations = 15
+    for it in range(iterations):
         data_line = get_data_line(10 ** 3)
+
+        # Время до вызова функции measure_me
+        start_time = time.time()
         measure_me(data_line)
+        # Время после выполнения функции measure_me
+        end_time = time.time()
+
+        # Время выполнения функции
+        execution_time = end_time - start_time
+        total_time += execution_time
+
+        # Логирование времени выполнения для каждой итерации
+        logger.debug(f"Iteration {it + 1} took {execution_time:.4f} seconds")
+
+    # Среднее время выполнения всех итераций
+    avg_time = total_time / iterations
+    logger.info(f"Average execution time: {avg_time:.4f} seconds")
