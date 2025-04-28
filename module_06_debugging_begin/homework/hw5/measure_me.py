@@ -10,6 +10,7 @@ import logging
 import random
 import time
 from typing import List
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -63,26 +64,28 @@ if __name__ == "__main__":
         datefmt="%Y-%m-%d %H:%M:%S",  # Формат даты и времени
     )
 
-    iterations = 15
-    total_time = 0
-    for it in range(iterations):
+    for it in range(3):
         data_line = get_data_line(10 ** 3)
+        measure_me(data_line)
 
-    #Время начала отсчёта
-    start_time = time.time()
 
-    measure_me(data_line)
+    def parse_log_file(file_path):
+        start_times = []
+        end_times = []
 
-    #Время конца отсчёта
-    end_time = time.time()
+        with open(file_path, 'r', encoding='utf-8') as file:
+            for line in file:
+                if "Enter measure_me" in line:
+                    start_time_str = line.split(' - ')[0]
+                    start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S.%f")
+                    start_times.append(start_time)
+                elif "Leave measure_me" in line:
+                    end_time_str = line.split(' - ')[0]
+                    end_time = datetime.strptime(end_time_str, "%Y-%m-%d %H:%M:%S.%f")
+                    end_times.append(end_time)
 
-    # Вычисляем время выполнения этой итерации
-    iteration_time = end_time - start_time
-    total_time += iteration_time
+        durations = [(end - start).total_seconds() for start, end in zip(start_times, end_times)]
+        average_duration = sum(durations) / len(durations) if durations else 0
+        print(f"Среднее время выполнения функции measure_me: {average_duration:.6f} секунд")
 
-    # Логируем время выполнения текущей итерации
-    logger.debug(f"Time for iteration {it + 1}: {iteration_time:.6f} seconds")
-
-# Подсчитываем среднее время выполнения
-average_time = total_time / iterations
-logger.debug(f"Average time: {average_time:.6f} seconds")
+    parse_log_file("measure_me.log")
