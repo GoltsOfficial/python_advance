@@ -8,15 +8,23 @@
 4. Сколько сообщений содержит слово dog.
 5. Какое слово чаще всего встречалось в сообщениях уровня WARNING.
 """
+import json
 from typing import Dict
+from collections import Counter
 
+
+def load_logs(file_path='skillbox_json_messages.log') -> list:
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return [json.loads(line) for line in file]
 
 def task1() -> Dict[str, int]:
     """
     1. Сколько было сообщений каждого уровня за сутки.
     @return: словарь вида {уровень: количество}
     """
-    pass
+    logs = load_logs()
+    level_counter = Counter(log['level'] for log in logs)
+    return dict(level_counter)
 
 
 def task2() -> int:
@@ -24,7 +32,11 @@ def task2() -> int:
     2. В какой час было больше всего логов.
     @return: час
     """
-    pass
+    logs = load_logs()
+    hours = [log['time'][:2] for log in logs]
+    hour_counter = Counter(hours)
+    most_common = hour_counter.most_common(1)[0][0]
+    return int(most_common)
 
 
 def task3() -> int:
@@ -32,7 +44,11 @@ def task3() -> int:
     3. Сколько логов уровня CRITICAL было в период с 05:00:00 по 05:20:00.
     @return: количество логов
     """
-    pass
+    logs = load_logs()
+    critical_logs = [log for log in logs if log['level'] == 'CRITICAL']
+    critical_counter_in_period = sum(5 <= int(log['time'][:2]) < 6 and log['time'][3:5] <= '20'
+                           for log in critical_logs)
+    return int(critical_counter_in_period)
 
 
 def task4() -> int:
@@ -40,7 +56,9 @@ def task4() -> int:
     4. Сколько сообщений содержат слово dog.
     @return: количество сообщений
     """
-    pass
+    logs = load_logs()
+    count_dog_words = sum('dog' in log['message'].lower() for log in logs)
+    return int(count_dog_words)
 
 
 def task5() -> str:
@@ -48,7 +66,11 @@ def task5() -> str:
     5. Какое слово чаще всего встречалось в сообщениях уровня WARNING.
     @return: слово
     """
-    pass
+    logs = load_logs()
+    warning_messages = [log['message'] for log in logs if log['level'] == 'WARNING']
+    all_words = ' '.join(warning_messages).split()
+    most_common_word = Counter(all_words).most_common(1)
+    return most_common_word[0][0] if most_common_word else ''
 
 
 if __name__ == '__main__':

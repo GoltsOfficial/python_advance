@@ -1,0 +1,50 @@
+/* Стиль для страницы ошибки */
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgba(240, 240, 240, 0.87);
+    text-align: center;
+    padding: 50px;
+}
+
+.error-container {
+    background-color: rgba(255, 255, 255, 0.83);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    text-align: left;
+    width: 60%;
+    max-width: 600px;
+}
+
+h1 {
+    color: rgba(212, 56, 56, 0.83);
+    font-size: 36px;
+}
+
+p {
+    font-size: 18px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin: 10px 0;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: rgba(29, 6, 231, 0.51);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #31b0d5;
+}

@@ -17,11 +17,23 @@
 Напишите функцию my_t9, которая принимает на вход строку, состоящую из цифр 2–9,
 и возвращает список слов английского языка, которые можно получить из этой последовательности цифр.
 """
+from itertools import product
 from typing import List
 
+digit_to_letters = {
+    '2': ['a', 'b', 'c'],
+    '3': ['d', 'e', 'f'],
+    '4': ['g', 'h', 'i'],
+    '5': ['j', 'k', 'l'],
+    '6': ['m', 'n', 'o'],
+    '7': ['p', 'q', 'r', 's'],
+    '8': ['t', 'u', 'v'],
+    '9': ['w', 'x', 'y', 'z']
+}
 
 def my_t9(input_numbers: str) -> List[str]:
-    ...
+    letter_combinations = [digit_to_letters[digit] for digit in input_numbers]
+    return [''.join(comb) for comb in product(*letter_combinations)]
 
 
 if __name__ == '__main__':

@@ -8,10 +8,11 @@
 """
 import logging
 import random
+import time
 from typing import List
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
-
 
 def get_data_line(sz: int) -> List[int]:
     try:
@@ -19,7 +20,6 @@ def get_data_line(sz: int) -> List[int]:
         return [random.randint(-(2 ** 31), 2 ** 31 - 1) for _ in range(sz)]
     finally:
         logger.debug("Leave get_data_line")
-
 
 def measure_me(nums: List[int]) -> List[List[int]]:
     logger.debug("Enter measure_me")
@@ -37,9 +37,7 @@ def measure_me(nums: List[int]) -> List[List[int]]:
                 if s == target:
                     logger.debug(f"Found {target}")
                     results.append([nums[i], nums[left], nums[right]])
-                    logger.debug(
-                        f"Appended {[nums[i], nums[left], nums[right]]} to result"
-                    )
+                    logger.debug(f"Appended {[nums[i], nums[left], nums[right]]} to result")
                     while left < right and nums[left] == nums[left + 1]:
                         left += 1
                     while left < right and nums[right] == nums[right - 1]:
@@ -47,20 +45,47 @@ def measure_me(nums: List[int]) -> List[List[int]]:
                     left += 1
                     right -= 1
                 elif s < target:
-                    logger.debug(f"Increment left (left, right) = {left, right}")
                     left += 1
                 else:
-                    logger.debug(f"Decrement right (left, right) = {left, right}")
-
                     right -= 1
 
     logger.debug("Leave measure_me")
-
     return results
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level="DEBUG")
-    for it in range(15):
+    # Конфигурация логгера с метками времени до миллисекунд
+    logging.basicConfig(
+        filename="measure_me.log",
+        filemode="w",
+        encoding="utf-8",
+        level=logging.DEBUG,
+        format="%(asctime)s.%(msecs)03d - %(message)s",  # Формат с миллисекундами
+        datefmt="%Y-%m-%d %H:%M:%S",  # Формат даты и времени
+    )
+
+    for it in range(3):
         data_line = get_data_line(10 ** 3)
         measure_me(data_line)
+
+
+    def parse_log_file(file_path):
+        start_times = []
+        end_times = []
+
+        with open(file_path, 'r', encoding='utf-8') as file:
+            for line in file:
+                if "Enter measure_me" in line:
+                    start_time_str = line.split(' - ')[0]
+                    start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S.%f")
+                    start_times.append(start_time)
+                elif "Leave measure_me" in line:
+                    end_time_str = line.split(' - ')[0]
+                    end_time = datetime.strptime(end_time_str, "%Y-%m-%d %H:%M:%S.%f")
+                    end_times.append(end_time)
+
+        durations = [(end - start).total_seconds() for start, end in zip(start_times, end_times)]
+        average_duration = sum(durations) / len(durations) if durations else 0
+        print(f"Среднее время выполнения функции measure_me: {average_duration:.6f} секунд")
+
+    parse_log_file("measure_me.log")
