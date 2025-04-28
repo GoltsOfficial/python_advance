@@ -64,6 +64,25 @@ if __name__ == "__main__":
     )
 
     iterations = 15
+    total_time = 0
     for it in range(iterations):
         data_line = get_data_line(10 ** 3)
-        measure_me(data_line)
+
+    #Время начала отсчёта
+    start_time = time.time()
+
+    measure_me(data_line)
+
+    #Время конца отсчёта
+    end_time = time.time()
+
+    # Вычисляем время выполнения этой итерации
+    iteration_time = end_time - start_time
+    total_time += iteration_time
+
+    # Логируем время выполнения текущей итерации
+    logger.debug(f"Time for iteration {it + 1}: {iteration_time:.6f} seconds")
+
+# Подсчитываем среднее время выполнения
+average_time = total_time / iterations
+logger.debug(f"Average time: {average_time:.6f} seconds")
