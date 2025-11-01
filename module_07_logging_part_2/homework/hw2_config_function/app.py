@@ -1,6 +1,12 @@
 import sys
 import logging
+
 from utils import string_to_operator
+from module_07_logging_part_2.homework.hw2_config_function.logging_config import setup_logging
+
+
+# Инициализируем стандарт для форматирования логов
+setup_logging()
 
 # Инициализируем логгер
 logger = logging.getLogger(__name__)
