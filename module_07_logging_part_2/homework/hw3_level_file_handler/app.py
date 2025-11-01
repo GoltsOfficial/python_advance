@@ -1,7 +1,10 @@
 
 import sys
 from utils import string_to_operator
+from logger_helper import get_logger
 
+# Получаем готовый логгер со всеми обработчиками
+logger = get_logger(__name__)
 
 def calc(args):
     print("Arguments: ", args)

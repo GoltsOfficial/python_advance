@@ -1,7 +1,10 @@
 
 from typing import Union, Callable
 from operator import sub, mul, truediv, add
+from logger_helper import get_logger
 
+# Получаем готовый логгер со всеми обработчиками
+logger = get_logger(__name__)
 
 OPERATORS = {
     '+': add,
