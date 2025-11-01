@@ -10,8 +10,6 @@ def calc(args):
     # Получаем входные данные
     logger.debug(f"Получаем аргументы: {args}")
 
-    print("Arguments: ", args)
-
     num_1 = args[0]
     operator = args[1]
     num_2 = args[2]
@@ -21,18 +19,16 @@ def calc(args):
         # Получаем первое значение
         logger.debug(f"Пробуем преобразовать первое значение: {num_1}")
     except ValueError as e:
-        logger.error(f"Ошибка преобразования первого значения: {num_1}")
-        print("Error while converting number 1")
-        print(e)
+        logger.error(f"Ошибка преобразования первого значения: {num_1}.\n"
+                     f"Содержимое ошибки: {e}")
 
     try:
         num_2 = float(num_2)
         # Получаем второе значение
         logger.debug(f"Пробуем преобразовать второе значение: {num_2}")
     except ValueError as e:
-        logger.error(f"Ошибка преобразования второго значения: {num_2}")
-        print("Error while converting number 2")
-        print(e)
+        logger.error(f"Ошибка преобразования второго значения: {num_2}.\n"
+                     f"Содержимое ошибки: {e}")
 
     operator_func = string_to_operator(operator)
     logger.debug(f"Получаем функцию оператора: {operator_func}")
@@ -40,8 +36,6 @@ def calc(args):
     result = operator_func(num_1, num_2)
     logger.debug(f"Выполнение операции: {num_1} {operator} {num_2} = {result}")
 
-    print("Result: ", result)
-    print(f"{num_1} {operator} {num_2} = {result}")
     logger.info(f"Успешно выполнена операция: {num_1} {operator} {num_2} = {result}")
 
 
